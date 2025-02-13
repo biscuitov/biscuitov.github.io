@@ -3,218 +3,168 @@
 <head>
     <meta charset="UTF-8" />
     <title>Biscuitov</title>
+
     <link
             rel="stylesheet"
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
     />
     <link
             rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"
-    />
-    <link
-            rel="stylesheet"
             href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
     />
+
     <style>
         :root {
             --primary: #64ffda;
-            --primary-glow: rgba(100, 255, 218, 0.2);
             --secondary: #8892b0;
-            --dark: #0a192f;
-            --darker: #0d1527;
+            --light: #ffffff;
+
+            --gradient-color-1: #0f2027;
+            --gradient-color-2: #203a43;
+            --gradient-color-3: #2c5364;
+
+            --animation-duration: 15s;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            background: radial-gradient(
-                    circle at 15% 15%,
-                    rgba(100, 255, 218, 0.03) 0%,
-                    transparent 40%
-            ),
-            radial-gradient(
-                    circle at 85% 85%,
-                    rgba(100, 255, 218, 0.03) 0%,
-                    transparent 40%
-            ),
-            linear-gradient(170deg, var(--darker) 0%, var(--dark) 100%);
-            color: var(--primary);
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            color: var(--primary);
             overflow-x: hidden;
+
+            background: linear-gradient(
+                    135deg,
+                    var(--gradient-color-1),
+                    var(--gradient-color-2),
+                    var(--gradient-color-3)
+            );
+            background-size: 600% 600%;
+            animation: gradientAnimation var(--animation-duration) ease infinite;
+            animation: fadeIn 0.8s ease-out, gradientAnimation var(--animation-duration) ease infinite;
         }
 
-        .custom-shape {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            filter: blur(120px);
-            opacity: 0.15;
-            z-index: 0;
-            pointer-events: none;
+        @keyframes fadeIn {
+            0%   { opacity: 0; }
+            100% { opacity: 1; }
         }
 
-        .shape-1 {
-            background: #64ffda;
-            top: -300px;
-            left: -300px;
-            border-radius: 43% 57% 70% 30% / 30% 43% 57% 70%;
-            animation: morph 15s linear infinite alternate;
-        }
-
-        .shape-2 {
-            background: #06b6d4;
-            bottom: -300px;
-            right: -300px;
-            border-radius: 57% 43% 30% 70% / 70% 30% 43% 57%;
-            animation: morph 15s linear infinite alternate-reverse;
-        }
-
-        @keyframes morph {
+        @keyframes gradientAnimation {
             0% {
-                border-radius: 43% 57% 70% 30% / 30% 43% 57% 70%;
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
             }
             100% {
-                border-radius: 57% 43% 30% 70% / 70% 30% 43% 57%;
+                background-position: 0% 50%;
             }
         }
 
-        .container {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero {
+        header.hero {
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            padding: 4rem 2rem;
-            margin-bottom: 2rem;
-            overflow: visible;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem 3rem;
         }
 
         .avatar-wrapper {
             position: relative;
-            padding: 6px;
             border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary), #06b6d4);
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+            transition: transform var(--transition-speed) ease;
         }
 
-        .hero img {
-            width: 220px;
-            height: 220px;
+        .avatar-wrapper:hover {
+            transform: scale(1.03);
+        }
+
+        .avatar-wrapper img {
+            width: 200px;
+            height: 200px;
             object-fit: cover;
             border-radius: 50%;
-            border: 4px solid var(--darker);
-            transition: transform 0.3s ease;
-        }
-
-        .hero img:hover {
-            transform: scale(1.05);
+            border: 1px solid #000;
+            background: linear-gradient(45deg, var(--primary), #06b6d4);
+            padding: 5px;
         }
 
         .hero h1 {
-            font-size: 5rem;
+            font-size: 3.2rem;
             font-weight: 800;
-            line-height: 1.3;
-            margin: 0 0 2rem;
-            background: linear-gradient(45deg, var(--primary), #ffffff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 2px 2px 10px rgba(100, 255, 218, 0.2);
-            position: relative;
-        }
-
-        .hero h1::after {
-            content: "<Biscuit />";
-            position: absolute;
-            bottom: -1.5rem;
-            right: -2rem;
-            font-size: 1.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
             color: var(--primary);
-            opacity: 0.5;
+            position: relative;
         }
 
         .hero p {
-            font-size: 1.5rem;
-            max-width: 800px;
+            max-width: 650px;
             margin: 0 auto;
-            margin-top: 1rem;
-            line-height: 1.6;
+            font-size: 1.2rem;
+            line-height: 1.5;
             color: var(--secondary);
-            text-align: center;
-            overflow: visible;
         }
 
-        .tech-grid {
-            display: grid;
-            gap: 3rem;
-            padding: 2rem;
-            position: relative;
-            z-index: 1;
+        section.tech-grid {
+            padding: 2rem 1rem 3rem;
         }
 
         .tech-category {
+            margin-bottom: 2.5rem;
             text-align: center;
-            padding: 2rem 0;
-            background: none;
-            border-radius: 0;
-            box-shadow: none;
-            position: relative;
-            overflow: visible;
         }
 
         .tech-category h3 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 2rem;
-            line-height: 1.2;
-            position: relative;
-            display: inline-block;
+            margin-bottom: 1.5rem;
         }
 
         .icon-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 1rem;
+            gap: 1.5rem;
             justify-items: center;
             max-width: 900px;
             margin: 0 auto;
         }
 
         .tech-icon {
+            width: 70px;
+            height: 70px;
             position: relative;
-            width: 80px;
-            height: 80px;
-            --brand-color: var(--primary);
-        }
-
-        .tech-icon i {
-            font-size: 3.5rem;
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            transition: transform var(--transition-speed) ease;
             display: flex;
             align-items: center;
             justify-content: center;
+            cursor: pointer;
+        }
 
+        .tech-icon i {
+            font-size: 3rem;
             color: var(--secondary);
-            transition: color 0.5s ease;
+            transition: color var(--transition-speed) ease;
         }
 
+        .tech-icon:hover {
+            transform: scale(1.1);
+        }
         .tech-icon:hover i {
-            color: var(--brand-color);
+            color: var(--brand-color, var(--primary));
         }
 
-        /* Индивидуальные цвета */
         .tech-icon.cpp {
             --brand-color: #00599c;
         }
@@ -225,7 +175,7 @@
             --brand-color: #5d4f85;
         }
         .tech-icon.js {
-            --brand-color: #3178C6;
+            --brand-color: #3178c6;
         }
         .tech-icon.go {
             --brand-color: #00add8;
@@ -248,12 +198,14 @@
 
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 3rem;
-                line-height: 1.3;
+                font-size: 2.4rem;
             }
             .hero p {
-                font-size: 1.2rem;
-                line-height: 1.5;
+                font-size: 1rem;
+            }
+
+            .icon-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
             .tech-icon {
                 width: 60px;
@@ -262,48 +214,30 @@
             .tech-icon i {
                 font-size: 2.5rem;
             }
-            .tech-category h3 {
-                font-size: 1.8rem;
-            }
-            .icon-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .tech-icon i {
-                transition: none;
-            }
-            .custom-shape {
-                animation: none;
-            }
         }
     </style>
 </head>
 <body>
-<div class="custom-shape shape-1"></div>
-<div class="custom-shape shape-2"></div>
-
-<header class="hero text-center">
+<header class="hero">
     <div class="avatar-wrapper">
         <img
                 src="https://github.com/biscuitov.png?size=200"
                 alt="Avatar"
-                class="animate__animated animate__fadeInDown"
         />
     </div>
-    <h1 class="animate__animated animate__fadeInDown">Hi, I'm Daytona</h1>
-    <p class="animate__animated animate__fadeInUp">
-        Crafting low-performance bullshit and silly solutions with a passion for
-        mental breakdown. Specialized in C++, Rust, and Haskell for building
-        shit. Experienced in 2007 web development with JS/TS and Go. Master
-        of database honorea across PostgreSQL, OracleSQL, MongoDB, MySQL.
+    <h1>Hi, I'm Daytona</h1>
+    <p>
+        Crafting low-performance bullshit and silly solutions with a passion
+        for mental breakdown. Specialized in C++, Rust, and Haskell for
+        building questionable architectures. Experienced in web development
+        with JS/TS and Go. Master of database honorea across PostgreSQL,
+        Oracle, MongoDB, MySQL.
     </p>
 </header>
 
 <section class="tech-grid">
     <div class="container">
-        <div class="tech-category animate__animated animate__fadeInUp">
+        <div class="tech-category">
             <div class="icon-grid">
                 <div class="tech-icon cpp">
                     <i class="devicon-cplusplus-plain"></i>
@@ -323,7 +257,7 @@
             </div>
         </div>
 
-        <div class="tech-category animate__animated animate__fadeInUp">
+        <div class="tech-category">
             <div class="icon-grid">
                 <div class="tech-icon postgres">
                     <i class="devicon-postgresql-plain"></i>
