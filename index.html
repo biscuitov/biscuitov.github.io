@@ -16,42 +16,333 @@
             href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
     />
     <style>
+        :root {
+            --primary: #64ffda;
+            --primary-glow: rgba(100, 255, 218, 0.2);
+            --secondary: #8892b0;
+            --dark: #0a192f;
+            --darker: #0d1527;
+        }
+
         body {
-            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(
+                    circle at 15% 15%,
+                    rgba(100, 255, 218, 0.03) 0%,
+                    transparent 40%
+            ),
+            radial-gradient(
+                    circle at 85% 85%,
+                    rgba(100, 255, 218, 0.03) 0%,
+                    transparent 40%
+            ),
+            linear-gradient(170deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--primary);
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-x: hidden; 
         }
-        h1 {
-            margin-top: 2rem;
+
+        .custom-shape {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            filter: blur(120px);
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
         }
-        .icon-container i,
-        .icon-container img {
-            font-size: 4rem;
-            margin: 1rem;
+
+        .shape-1 {
+            background: #64ffda;
+            top: -300px;
+            left: -300px;
+            border-radius: 43% 57% 70% 30% / 30% 43% 57% 70%;
+            animation: morph 15s linear infinite alternate;
+        }
+
+        .shape-2 {
+            background: #06b6d4;
+            bottom: -300px;
+            right: -300px;
+            border-radius: 57% 43% 30% 70% / 70% 30% 43% 57%;
+            animation: morph 15s linear infinite alternate-reverse;
+        }
+
+        @keyframes morph {
+            0% {
+                border-radius: 43% 57% 70% 30% / 30% 43% 57% 70%;
+            }
+            100% {
+                border-radius: 57% 43% 30% 70% / 70% 30% 43% 57%;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            margin-bottom: 2rem;
+            overflow: visible;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            padding: 6px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), #06b6d4);
+            margin-bottom: 3rem;
+        }
+
+        .hero img {
+            width: 220px;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--darker);
+            transition: transform 0.3s ease;
+        }
+
+        .hero img:hover {
+            transform: scale(1.05);
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.3;
+            margin: 0 0 2rem;
+            background: linear-gradient(45deg, var(--primary), #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 2px 2px 10px rgba(100, 255, 218, 0.2);
+            position: relative;
+        }
+
+        .hero h1::after {
+            content: "<Biscuit />";
+            position: absolute;
+            bottom: -1.5rem;
+            right: -2rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+            opacity: 0.5;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 1rem;
+            line-height: 1.6;
+            color: var(--secondary);
+            text-align: center;
+            overflow: visible;
+        }
+
+        .tech-grid {
+            display: grid;
+            gap: 3rem;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tech-category {
+            text-align: center;
+            padding: 2rem 0;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            position: relative;
+            overflow: visible;
+        }
+
+        .tech-category h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            justify-items: center;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .tech-icon {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            --brand-color: var(--primary);
+        }
+
+        .tech-icon i {
+            font-size: 3.5rem;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--secondary);
+            transition: color 0.5s ease;
+        }
+
+        .tech-icon:hover i {
+            color: var(--brand-color);
+        }
+
+        /* Индивидуальные цвета */
+        .tech-icon.cpp {
+            --brand-color: #00599c;
+        }
+        .tech-icon.rust {
+            --brand-color: #dea584;
+        }
+        .tech-icon.haskell {
+            --brand-color: #5d4f85;
+        }
+        .tech-icon.js {
+            --brand-color: #f7df1e;
+        }
+        .tech-icon.go {
+            --brand-color: #00add8;
+        }
+        .tech-icon.postgres {
+            --brand-color: #336791;
+        }
+        .tech-icon.oracle {
+            --brand-color: #f80000;
+        }
+        .tech-icon.mongo {
+            --brand-color: #47a248;
+        }
+        .tech-icon.mysql {
+            --brand-color: #4479a1;
+        }
+        .tech-icon.redis {
+            --brand-color: #dc382d;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+                line-height: 1.3;
+            }
+            .hero p {
+                font-size: 1.2rem;
+                line-height: 1.5;
+            }
+            .tech-icon {
+                width: 60px;
+                height: 60px;
+            }
+            .tech-icon i {
+                font-size: 2.5rem;
+            }
+            .tech-category h3 {
+                font-size: 1.8rem;
+            }
+            .icon-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tech-icon i {
+                transition: none;
+            }
+            .custom-shape {
+                animation: none;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container text-center">
-    <h1 class="animate__animated animate__fadeInDown">Hi, i'm Biscuit</h1>
+<div class="custom-shape shape-1"></div>
+<div class="custom-shape shape-2"></div>
+
+<header class="hero text-center">
+    <div class="avatar-wrapper">
+        <img
+                src="https://github.com/biscuitov.png?size=200"
+                alt="Avatar"
+                class="animate__animated animate__fadeInDown"
+        />
+    </div>
+    <h1 class="animate__animated animate__fadeInDown">Hi, I'm Daytona</h1>
     <p class="animate__animated animate__fadeInUp">
-        My main programming languages are C++, Rust, Haskell, JS/TS, Go. And I can work with PostgreSQL, OracleSQL, MongoDB, MySQL, Redis, ClickHouse.
+        Crafting low-performance bullshit and silly solutions with a passion for
+        mental breakdown. Specialized in C++, Rust, and Haskell for building
+        shit. Experienced in 2007 web development with JS/TS and Go. Master
+        of database honorea across PostgreSQL, OracleSQL, MongoDB, MySQL.
     </p>
-    <div class="row icon-container justify-content-center">
-        <i class="devicon-cplusplus-plain colored animate__animated animate__zoomIn"></i>
-        <i class="devicon-rust-plain colored animate__animated animate__zoomIn"></i>
-        <i class="devicon-haskell-plain colored animate__animated animate__zoomIn"></i>
-        <i class="devicon-javascript-plain colored animate__animated animate__zoomIn"></i>
-        <i class="devicon-go-plain colored animate__animated animate__zoomIn"></i>
+</header>
+
+<section class="tech-grid">
+    <div class="container">
+        <div class="tech-category animate__animated animate__fadeInUp">
+            <div class="icon-grid">
+                <div class="tech-icon cpp">
+                    <i class="devicon-cplusplus-plain"></i>
+                </div>
+                <div class="tech-icon rust">
+                    <i class="devicon-rust-plain"></i>
+                </div>
+                <div class="tech-icon haskell">
+                    <i class="devicon-haskell-plain"></i>
+                </div>
+                <div class="tech-icon js">
+                    <i class="devicon-javascript-plain"></i>
+                </div>
+                <div class="tech-icon go">
+                    <i class="devicon-go-plain"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="tech-category animate__animated animate__fadeInUp">
+            <div class="icon-grid">
+                <div class="tech-icon postgres">
+                    <i class="devicon-postgresql-plain"></i>
+                </div>
+                <div class="tech-icon oracle">
+                    <i class="devicon-oracle-original"></i>
+                </div>
+                <div class="tech-icon mongo">
+                    <i class="devicon-mongodb-plain"></i>
+                </div>
+                <div class="tech-icon mysql">
+                    <i class="devicon-mysql-plain"></i>
+                </div>
+                <div class="tech-icon redis">
+                    <i class="devicon-redis-plain"></i>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="row icon-container justify-content-center">
-        <i class="devicon-postgresql-plain colored animate__animated animate__zoomIn"></i>
-        <i class="devicon-oracle-original colored animate__animated animate__zoomIn"></i>
-        <i class="devicon-mongodb-plain colored animate__animated animate__zoomIn"></i>
-        <i class="devicon-mysql-plain colored animate__animated animate__zoomIn"></i>
-        <i class="devicon-redis-plain colored animate__animated animate__zoomIn"></i>
-    </div>
-</div>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-></script>
+</section>
 </body>
 </html>
