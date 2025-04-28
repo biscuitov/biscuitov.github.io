@@ -1,295 +1,374 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biscuitov</title>
 
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    />
-    <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
-    />
-
-    <style>
-        :root {
-            --primary: #64ffda;
-            --secondary: #8892b0;
-            --light: #ffffff;
-
-            --gradient-color-1: #0f2027;
-            --gradient-color-2: #203a43;
-            --gradient-color-3: #2c5364;
-
-            --animation-duration: 15s;
-            --transition-speed: 0.3s;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            color: var(--primary);
-            overflow-x: hidden;
-
-            background: linear-gradient(
-                    135deg,
-                    var(--gradient-color-1),
-                    var(--gradient-color-2),
-                    var(--gradient-color-3)
-            );
-            background-size: 600% 600%;
-            animation: gradientAnimation var(--animation-duration) ease infinite;
-            animation: fadeIn 0.8s ease-out, gradientAnimation var(--animation-duration) ease infinite;
-        }
-
-        @keyframes fadeIn {
-            0%   { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        @keyframes gradientAnimation {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        header.hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 4rem 2rem 3rem;
-        }
-
-        .avatar-wrapper {
-            position: relative;
-            border-radius: 50%;
-            margin-bottom: 2rem;
-            transition: transform var(--transition-speed) ease;
-        }
-
-        .avatar-wrapper:hover {
-            transform: scale(1.03);
-        }
-
-        .avatar-wrapper img {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 1px solid #000;
-            background: linear-gradient(45deg, var(--primary), #06b6d4);
-            padding: 5px;
-        }
-
-        .hero h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1rem;
-            color: var(--primary);
-            position: relative;
-        }
-
-        .hero p {
-            max-width: 700px;
-            margin: 0 auto;
-            font-size: 1.2rem;
-            line-height: 1.5;
-            color: var(--secondary);
-        }
-
-        section.tech-grid {
-            padding: 2rem 1rem 3rem;
-        }
-
-        .tech-category {
-            margin-bottom: 2.5rem;
-            text-align: center;
-        }
-
-        .tech-category h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .icon-grid {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 1.5rem;
-            justify-items: center;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .tech-icon {
-            width: 70px;
-            height: 70px;
-            position: relative;
-            transition: transform var(--transition-speed) ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        .tech-icon i {
-            font-size: 3rem;
-            color: var(--secondary);
-            transition: color var(--transition-speed) ease;
-        }
-
-        .tech-icon:hover {
-            transform: scale(1.1);
-        }
-        .tech-icon:hover i {
-            color: var(--brand-color, var(--primary));
-        }
-
-        .tech-icon.cpp {
-            --brand-color: #00599c;
-        }
-        .tech-icon.rust {
-            --brand-color: #dea584;
-        }
-        .tech-icon.haskell {
-            --brand-color: #5d4f85;
-        }
-        .tech-icon.js {
-            --brand-color: #F7DF1E;
-        }
-        .tech-icon.ts {
-            --brand-color: #3178c6;
-        }
-        .tech-icon.go {
-            --brand-color: #00add8;
-        }
-        .tech-icon.postgres {
-            --brand-color: #336791;
-        }
-        .tech-icon.oracle {
-            --brand-color: #f80000;
-        }
-        .tech-icon.mongo {
-            --brand-color: #47a248;
-        }
-        .tech-icon.mysql {
-            --brand-color: #4479a1;
-        }
-        .tech-icon.mariadb {
-            --brand-color: #003545;
-        }
-        .tech-icon.redis {
-            --brand-color: #dc382d;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.4rem;
-            }
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .icon-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            .tech-icon {
-                width: 60px;
-                height: 60px;
-            }
-            .tech-icon i {
-                font-size: 2.5rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<header class="hero">
-    <div class="avatar-wrapper">
-        <img
-                src="https://github.com/biscuitov.png?size=200"
-                alt="Avatar"
-        />
-    </div>
-    <h1>Hi, I'm Daytona</h1>
-    <p>
-        Crafting low-performance bullshit and silly solutions with a passion
-        for mental breakdown. Specialized in C++, Rust, and Haskell for
-        building absolute shit. JS/TS enthusiast, known for turning 10 lines of code into 500 with zero performance gain.
-        Expert in dragging the modern web back to 2006 by writing masterpieces that
-        run under IE7. Master of database honorea across PostgreSQL, Oracle, MongoDB, MySQL.
-        Inventor of the world's first single-threaded microservice architecture. Patent pending.
-    </p>
-</header>
+<div class="scroll-container">
+    <div class="cursor"></div>
 
-<section class="tech-grid">
-    <div class="container">
-        <div class="tech-category">
-            <div class="icon-grid">
-                <div class="tech-icon cpp">
-                    <i class="devicon-cplusplus-plain"></i>
+    <div class="blob-animation blob-1"></div>
+    <div class="blob-animation blob-2"></div>
+
+    <nav class="nav-bar">
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero" id="home">
+        <div class="floating-element float-1"></div>
+        <div class="floating-element float-2"></div>
+        <div class="floating-element float-3"></div>
+
+        <div class="hero-content">
+            <div class="avatar-wrapper">
+                <img src="https://github.com/biscuitov.png?size=220" alt="Avatar" />
+            </div>
+
+            <h2 class="hero-title">DAYTONA</h2>
+
+            <h1><span class="typewriter-effect">Hi, I'm Daytona</span></h1>
+
+            <p>
+                Crafting <span class="highlight">low-performance bullshit</span> and silly solutions with a passion
+                for mental breakdown. Specialized in C++, Rust, and Haskell for
+                building absolute shit. JS/TS enthusiast, known for turning <span class="highlight">10 lines of code into 500</span> with zero performance gain.
+                Expert in dragging the modern web back to 2006 by writing masterpieces that
+                run under IE7. Master of database honorea across PostgreSQL, Oracle, MongoDB, MySQL.
+                Inventor of the world's first <span class="highlight">single-threaded microservice architecture</span>. Patent pending.
+            </p>
+
+            <div class="social-links">
+                <a href="https://github.com/biscuitov" class="social-icon"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/polanski-aleksy/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="https://t.me/dddttt133" class="social-icon"><i class="fab fa-telegram"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2 class="about-title">About Me and My Projects</h2>
+                <div class="about-description">
+                    <p>I'm a programmer with amazingly low qualifications and an impressive ability to create complex solutions for simple problems. My journey in programming began when I accidentally drank coffee and decided I could write my own operating system (which still doesn't work).</p>
+                    <br>
+                    <p>My colleagues describe me as "technically alive" and "surprisingly persistent despite a complete lack of talent". I take pride in my ability to transform client requirements into a completely different product that no one needs.</p>
                 </div>
-                <div class="tech-icon rust">
-                    <i class="devicon-rust-plain"></i>
-                </div>
-                <div class="tech-icon haskell">
-                    <i class="devicon-haskell-plain"></i>
-                </div>
-                <div class="tech-icon js">
-                    <i class="devicon-javascript-plain"></i>
-                </div>
-                <div class="tech-icon ts">
-                    <i class="devicon-typescript-plain"></i>
-                </div>
-                <div class="tech-icon go">
-                    <i class="devicon-go-plain"></i>
+
+                <div class="terminal">
+                    <div class="terminal-title">my_career.sh</div>
+                    <div class="terminal-body">
+                        <div class="terminal-prompt">cd ~/career</div><br>
+                        <div class="terminal-prompt">ls -la</div><br>
+                        <div>drwxr-xr-x projects</div>
+                        <div>drwxr-xr-x skills</div>
+                        <div>-rw-r--r-- resume.pdf</div>
+                        <div>-rw-r--r-- reasons_to_hire_me.txt (empty)</div><br>
+                        <div class="terminal-prompt">cat reasons_to_hire_me.txt</div><br>
+                        <div>File is empty or contains invisible text.</div><br>
+                        <div class="terminal-prompt">./make_coffee.sh</div><br>
+                        <div>Fatal error: Coffee overflow. System crashed.</div><br>
+                        <div class="terminal-prompt"><span class="terminal-cursor"></span></div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="tech-category">
-            <div class="icon-grid">
-                <div class="tech-icon postgres">
-                    <i class="devicon-postgresql-plain"></i>
+    <section class="tech-grid" id="skills">
+        <div class="container">
+            <h2 class="section-title">My Technical Skills</h2>
+
+            <div class="tech-category" data-aos="fade-up">
+                <h3>Programming Languages</h3>
+                <div class="icon-grid">
+                    <div class="tech-icon cpp tilt-card">
+                        <i class="devicon-cplusplus-plain"></i>
+                        <div class="tech-name">C++</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon rust tilt-card">
+                        <i class="devicon-rust-plain"></i>
+                        <div class="tech-name">Rust</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon haskell tilt-card">
+                        <i class="devicon-haskell-plain"></i>
+                        <div class="tech-name">Haskell</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon js tilt-card">
+                        <i class="devicon-javascript-plain"></i>
+                        <div class="tech-name">JavaScript</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon ts tilt-card">
+                        <i class="devicon-typescript-plain"></i>
+                        <div class="tech-name">TypeScript</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon go tilt-card">
+                        <i class="devicon-go-plain"></i>
+                        <div class="tech-name">Go</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
                 </div>
-                <div class="tech-icon oracle">
-                    <i class="devicon-oracle-original"></i>
+            </div>
+
+            <div class="tech-category" data-aos="fade-up" data-aos-delay="200">
+                <h3>Databases</h3>
+                <div class="icon-grid">
+                    <div class="tech-icon postgres tilt-card">
+                        <i class="devicon-postgresql-plain"></i>
+                        <div class="tech-name">PostgreSQL</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon oracle tilt-card">
+                        <i class="devicon-oracle-original"></i>
+                        <div class="tech-name">Oracle</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon mongo tilt-card">
+                        <i class="devicon-mongodb-plain"></i>
+                        <div class="tech-name">MongoDB</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon mysql tilt-card">
+                        <i class="devicon-mysql-plain"></i>
+                        <div class="tech-name">MySQL</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon mariadb tilt-card">
+                        <i class="devicon-mariadb-plain"></i>
+                        <div class="tech-name">MariaDB</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
+                    <div class="tech-icon redis tilt-card">
+                        <i class="devicon-redis-plain"></i>
+                        <div class="tech-name">Redis</div>
+                        <div class="tilt-card-shine"></div>
+                    </div>
                 </div>
-                <div class="tech-icon mongo">
-                    <i class="devicon-mongodb-plain"></i>
+            </div>
+
+            <div class="skill-bars">
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <div class="skill-name">Breaking Working Code</div>
+                        <div class="skill-level">98%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 98%"></div>
+                    </div>
                 </div>
-                <div class="tech-icon mysql">
-                    <i class="devicon-mysql-plain"></i>
+
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <div class="skill-name">Overcomplicating Simple Solutions</div>
+                        <div class="skill-level">95%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 95%"></div>
+                    </div>
                 </div>
-                <div class="tech-icon mariadb">
-                    <i class="devicon-mariadb-plain"></i>
+
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <div class="skill-name">Misunderstanding Technical Requirements</div>
+                        <div class="skill-level">97%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 97%"></div>
+                    </div>
                 </div>
-                <div class="tech-icon redis">
-                    <i class="devicon-redis-plain"></i>
+
+                <div class="skill-bar">
+                    <div class="skill-info">
+                        <div class="skill-name">Creating Unoptimized Code</div>
+                        <div class="skill-level">99%</div>
+                    </div>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 99%"></div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
+
+    <section class="code-section">
+        <div class="container">
+            <h2 class="section-title">My Signature Code</h2>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <div class="code-actions">
+                        <div class="code-action action-close"></div>
+                        <div class="code-action action-minimize"></div>
+                        <div class="code-action action-maximize"></div>
+                    </div>
+                    <div class="code-title">
+                        <i class="fas fa-code"></i>
+                        <span>masterpiece.cpp</span>
+                    </div>
+                </div>
+                <div class="code-content">
+                    <div class="code-line">
+                        <span class="line-number">1</span>
+                        <span class="line-content"><span class="highlight-comment">// The most inefficient way to check if a number is even</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">2</span>
+                        <span class="line-content"><span class="highlight-keyword">bool</span> <span class="highlight-function">isEven</span>(<span class="highlight-keyword">int</span> <span class="highlight-variable">number</span>) {</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">3</span>
+                        <span class="line-content">    <span class="highlight-comment">// First convert to string, because why not</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">4</span>
+                        <span class="line-content">    <span class="highlight-keyword">std</span>::<span class="highlight-keyword">string</span> <span class="highlight-variable">numStr</span> = <span class="highlight-keyword">std</span>::<span class="highlight-function">to_string</span>(<span class="highlight-variable">number</span>);</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">5</span>
+                        <span class="line-content">    </span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">6</span>
+                        <span class="line-content">    <span class="highlight-comment">// Convert back to integer, essential step</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">7</span>
+                        <span class="line-content">    <span class="highlight-keyword">int</span> <span class="highlight-variable">num</span> = <span class="highlight-keyword">std</span>::<span class="highlight-function">stoi</span>(<span class="highlight-variable">numStr</span>);</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">8</span>
+                        <span class="line-content">    </span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">9</span>
+                        <span class="line-content">    <span class="highlight-comment">// Create a vector of all numbers up to our number</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">10</span>
+                        <span class="line-content">    <span class="highlight-keyword">std</span>::<span class="highlight-keyword">vector</span><<span class="highlight-keyword">int</span>> <span class="highlight-variable">numbers</span>;</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">11</span>
+                        <span class="line-content">    <span class="highlight-keyword">for</span> (<span class="highlight-keyword">int</span> <span class="highlight-variable">i</span> = 0; <span class="highlight-variable">i</span> <= <span class="highlight-variable">num</span>; <span class="highlight-variable">i</span>++) {</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">12</span>
+                        <span class="line-content">        <span class="highlight-variable">numbers</span>.<span class="highlight-function">push_back</span>(<span class="highlight-variable">i</span>);</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">13</span>
+                        <span class="line-content">    }</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">14</span>
+                        <span class="line-content">    </span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">15</span>
+                        <span class="line-content">    <span class="highlight-comment">// Filter only even numbers</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">16</span>
+                        <span class="line-content">    <span class="highlight-keyword">std</span>::<span class="highlight-keyword">vector</span><<span class="highlight-keyword">int</span>> <span class="highlight-variable">evenNumbers</span>;</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">17</span>
+                        <span class="line-content">    <span class="highlight-keyword">for</span> (<span class="highlight-keyword">auto</span> <span class="highlight-variable">n</span> : <span class="highlight-variable">numbers</span>) {</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">18</span>
+                        <span class="line-content">        <span class="highlight-keyword">if</span> (<span class="highlight-variable">n</span> % 2 == 0) { <span class="highlight-comment">// The irony</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">19</span>
+                        <span class="line-content">            <span class="highlight-variable">evenNumbers</span>.<span class="highlight-function">push_back</span>(<span class="highlight-variable">n</span>);</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">20</span>
+                        <span class="line-content">        }</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">21</span>
+                        <span class="line-content">    }</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">22</span>
+                        <span class="line-content">    </span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">23</span>
+                        <span class="line-content">    <span class="highlight-comment">// Find our number in the even numbers list</span></span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">24</span>
+                        <span class="line-content">    <span class="highlight-keyword">return</span> <span class="highlight-keyword">std</span>::<span class="highlight-function">find</span>(<span class="highlight-variable">evenNumbers</span>.<span class="highlight-function">begin</span>(), <span class="highlight-variable">evenNumbers</span>.<span class="highlight-function">end</span>(), <span class="highlight-variable">num</span>) != <span class="highlight-variable">evenNumbers</span>.<span class="highlight-function">end</span>();</span>
+                    </div>
+                    <div class="code-line">
+                        <span class="line-number">25</span>
+                        <span class="line-content">}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="about-section">
+        <div class="container">
+            <h2 class="section-title">Contact Me</h2>
+
+            <div class="terminal">
+                <div class="terminal-title">contact.sh</div>
+                <div class="terminal-body">
+                    <div class="terminal-prompt">./get_contact_info.sh</div><br>
+                    <div>Email: daytona@example.com</div>
+                    <div>Twitter: @biscuitov</div>
+                    <div>GitHub: /biscuitov</div><br>
+                    <div class="terminal-prompt">./send_job_offer.sh --salary="appropriate" --coffee="unlimited"</div><br>
+                    <div>Processing request...</div>
+                    <div>Request accepted. Subject will contact you to discuss further details.</div><br>
+                    <div class="terminal-prompt"><span class="terminal-cursor"></span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p class="footer-text">Website developed using cutting-edge technologies from 2006 and optimized for Internet Explorer 7.</p>
+
+            <p class="footer-copyright">© 2025 Daytona. All errors reserved.</p>
+        </div>
+    </footer>
+
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
     </div>
-</section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="script.js"></script>
+</div>
 </body>
 </html>
