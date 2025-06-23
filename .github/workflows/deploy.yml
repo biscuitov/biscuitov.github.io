@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build-and-deploy:
@@ -25,13 +27,9 @@ jobs:
       env:
         NODE_ENV: production
 
-    - name: Copy .nojekyll
-      run: cp .nojekyll out/.nojekyll
-
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./out
-        enable_jekyll: false
