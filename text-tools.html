@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Tools | Full-Stack Developer Portfolio</title>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .text-tools {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+        .tools-container {
+            width: 1400px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            box-sizing: border-box;
+        }
+
+        .tool-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .tool-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+        }
+
+        .tool-description {
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .tool-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 600px;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .tool-input, .tool-output {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .input-section, .output-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .textarea-container, .output-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .textarea-container .code-textarea {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .section-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            max-width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            transition: var(--transition);
+            box-sizing: border-box;
+            resize: none;
+        }
+
+        .code-textarea {
+            width: 100%;
+            max-width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            resize: none;
+            transition: var(--transition);
+            box-sizing: border-box;
+            overflow: auto;
+        }
+
+        .form-input:focus, .form-textarea:focus, .code-textarea:focus {
+            outline: none;
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+        }
+
+        [data-theme="dark"] .form-input:focus,
+        [data-theme="dark"] .form-textarea:focus,
+        [data-theme="dark"] .code-textarea:focus {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .preview-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 200px;
+            overflow: auto;
+        }
+
+        .qr-display {
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-placeholder {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .qr-settings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .range-input {
+            width: 100%;
+        }
+
+        .range-value {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .color-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            border: 2px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-secondary);
+            flex: 1;
+            text-align: center;
+        }
+
+        .color-option:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-color);
+        }
+
+        .color-option[data-active="true"] {
+            border-color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .color-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .transparent-bg {
+            background: linear-gradient(45deg, #ccc 25%, transparent 25%), 
+                        linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #ccc 75%), 
+                        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size: 6px 6px;
+            background-position: 0 0, 0 3px, 3px -3px, -3px 0px;
+        }
+
+        .color-option span {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--text-primary);
+            background: transparent;
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .action-btn:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .action-btn.primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .action-btn.primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .token-stats {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 1rem;
+            text-align: center;
+            height: 100%;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .iframe-preview {
+            width: 100%;
+            min-height: 300px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: white;
+        }
+
+        .home-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            margin-right: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .home-icon:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .tools-container {
+                width: 100%;
+                max-width: 100%;
+                padding: 1rem;
+                gap: 2rem;
+            }
+
+            .tool-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                height: auto;
+            }
+
+            .qr-settings {
+                grid-template-columns: 1fr;
+            }
+
+            .action-buttons {
+                justify-content: center;
+            }
+
+            .token-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-container {
+                justify-content: space-between;
+            }
+
+            .logo {
+                flex: 1;
+                justify-content: flex-start;
+            }
+
+            .nav-controls {
+                flex: 0 0 auto;
+                order: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-icon {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                margin-right: 0;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            .nav-controls {
+                margin-left: auto;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .token-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html" class="home-icon">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <span data-lang="en">Text Tools</span>
+                    <span data-lang="ru">Текстовые инструменты</span>
+                </div>
+                <div class="nav-controls">
+                    <button class="lang-toggle" id="langToggle">
+                        <i class="fas fa-globe"></i>
+                        <span class="lang-text">RU</span>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="text-tools">
+        <div class="tools-container">
+            <section class="tool-section">
+                <div class="tool-header">
+                    <h2 class="tool-title">
+                        <span data-lang="en">QR Code Generator</span>
+                        <span data-lang="ru">Генератор QR-кодов</span>
+                    </h2>
+                    <p class="tool-description">
+                        <span data-lang="en">Generate QR codes from text, URLs, and other data with customizable colors and sizes</span>
+                        <span data-lang="ru">Создавайте QR-коды из текста, URL и других данных с настраиваемыми цветами и размерами</span>
+                    </p>
+                </div>
+                <div class="tool-content">
+                    <div class="input-section">
+                        <label class="section-label">
+                            <span data-lang="en">QR Code Settings</span>
+                            <span data-lang="ru">Настройки QR-кода</span>
+                        </label>
+                        <div class="textarea-container" style="flex: 0 0 auto; margin-bottom: 1rem;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="form-label" for="qr-text">
+                                    <span data-lang="en">Text or URL</span>
+                                    <span data-lang="ru">Текст или URL</span>
+                                </label>
+                                <textarea 
+                                    id="qr-text" 
+                                    class="form-input" 
+                                    style="min-height: 80px; resize: vertical;"
+                                    placeholder="Enter text or URL..."
+                                    data-placeholder-en="Enter text or URL..."
+                                    data-placeholder-ru="Введите текст или URL..."
+                                ></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="qr-settings">
+                            <div class="form-group">
+                                <label class="form-label" for="qr-size">
+                                    <span data-lang="en">Size</span>
+                                    <span data-lang="ru">Размер</span>
+                                </label>
+                                <input type="range" id="qr-size" class="range-input" min="200" max="600" value="300" step="50">
+                                <div class="range-value" id="size-value">300px</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="qr-margin">
+                                    <span data-lang="en">Margin</span>
+                                    <span data-lang="ru">Отступ</span>
+                                </label>
+                                <input type="range" id="qr-margin" class="range-input" min="0" max="8" value="2" step="1">
+                                <div class="range-value" id="margin-value">2</div>
+                            </div>
+                        </div>
+
+                        <div class="qr-settings">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span data-lang="en">QR Color</span>
+                                    <span data-lang="ru">Цвет QR</span>
+                                </label>
+                                <div class="color-picker">
+                                    <div class="color-option" data-color="#000000" data-active="true">
+                                        <div class="color-circle" style="background-color: #000000;"></div>
+                                        <span data-lang="en">Black</span>
+                                        <span data-lang="ru">Черный</span>
+                                    </div>
+                                    <div class="color-option" data-color="#ffffff">
+                                        <div class="color-circle" style="background-color: #ffffff; border: 1px solid var(--border-color);"></div>
+                                        <span data-lang="en">White</span>
+                                        <span data-lang="ru">Белый</span>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="qr-fg-color" value="#000000">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span data-lang="en">Background</span>
+                                    <span data-lang="ru">Фон</span>
+                                </label>
+                                <div class="color-picker">
+                                    <div class="color-option" data-color="#ffffff" data-active="true">
+                                        <div class="color-circle" style="background-color: #ffffff; border: 1px solid var(--border-color);"></div>
+                                        <span data-lang="en">White</span>
+                                        <span data-lang="ru">Белый</span>
+                                    </div>
+                                    <div class="color-option" data-color="transparent">
+                                        <div class="color-circle transparent-bg">
+                                            <i class="fas fa-eye-slash"></i>
+                                        </div>
+                                        <span data-lang="en">Clear</span>
+                                        <span data-lang="ru">Прозр.</span>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="qr-bg-color" value="#ffffff">
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="action-btn primary" id="generate-qr">
+                                <i class="fas fa-magic"></i>
+                                <span data-lang="en">Generate</span>
+                                <span data-lang="ru">Создать</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="output-section">
+                        <label class="section-label">
+                            <span data-lang="en">Generated QR Code</span>
+                            <span data-lang="ru">Сгенерированный QR-код</span>
+                        </label>
+                        <div class="output-container">
+                            <div class="qr-display" id="qr-display" style="flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0;">
+                                <div class="qr-placeholder">
+                                    <span data-lang="en">QR code will appear here</span>
+                                    <span data-lang="ru">QR-код появится здесь</span>
+                                </div>
+                            </div>
+                            <div class="action-buttons" style="margin-top: 1rem;">
+                                <button class="action-btn" id="download-svg" disabled>
+                                    <i class="fas fa-download"></i>
+                                    <span data-lang="en">SVG</span>
+                                    <span data-lang="ru">SVG</span>
+                                </button>
+                                <button class="action-btn" id="download-png" disabled>
+                                    <i class="fas fa-download"></i>
+                                    <span data-lang="en">PNG</span>
+                                    <span data-lang="ru">PNG</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tool-section">
+                <div class="tool-header">
+                    <h2 class="tool-title">
+                        <span data-lang="en">Markdown Preview</span>
+                        <span data-lang="ru">Превью Markdown</span>
+                    </h2>
+                    <p class="tool-description">
+                        <span data-lang="en">Write and preview Markdown text with real-time rendering</span>
+                        <span data-lang="ru">Пишите и просматривайте Markdown текст с рендерингом в реальном времени</span>
+                    </p>
+                </div>
+                
+                <div class="tool-content">
+                    <div class="input-section">
+                        <label class="section-label" for="markdown-input">
+                            <span data-lang="en">Markdown Text</span>
+                            <span data-lang="ru">Markdown текст</span>
+                        </label>
+                        <div class="textarea-container">
+                            <textarea 
+                                id="markdown-input" 
+                                class="code-textarea" 
+                                placeholder="# Enter markdown here..."
+                                data-placeholder-en="# Enter markdown here..."
+                                data-placeholder-ru="# Введите markdown здесь..."
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="output-section">
+                        <label class="section-label">
+                            <span data-lang="en">Preview</span>
+                            <span data-lang="ru">Превью</span>
+                        </label>
+                        <div class="output-container">
+                            <div id="markdown-preview" class="code-textarea" style="background: var(--bg-tertiary); overflow-y: auto; flex: 1;">
+                                <p style="color: var(--text-muted); font-style: italic;">
+                                    <span data-lang="en">Markdown preview will appear here</span>
+                                    <span data-lang="ru">Превью markdown появится здесь</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tool-section">
+                <div class="tool-header">
+                    <h2 class="tool-title">
+                        <span data-lang="en">HTML Preview</span>
+                        <span data-lang="ru">Превью HTML</span>
+                    </h2>
+                    <p class="tool-description">
+                        <span data-lang="en">Write and preview HTML code with live rendering in a secure sandbox</span>
+                        <span data-lang="ru">Пишите и просматривайте HTML код с рендерингом в безопасной песочнице</span>
+                    </p>
+                </div>
+                
+                <div class="tool-content">
+                    <div class="input-section">
+                        <label class="section-label" for="html-input">
+                            <span data-lang="en">HTML Code</span>
+                            <span data-lang="ru">HTML код</span>
+                        </label>
+                        <div class="textarea-container">
+                            <textarea 
+                                id="html-input" 
+                                class="code-textarea"
+                                placeholder="<html>..."
+                                data-placeholder-en="<html>..."
+                                data-placeholder-ru="<html>..."
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <div class="output-section">
+                        <label class="section-label">
+                            <span data-lang="en">Preview</span>
+                            <span data-lang="ru">Превью</span>
+                        </label>
+                        <div class="output-container">
+                            <iframe 
+                                id="html-preview" 
+                                class="code-textarea"
+                                style="background: white; flex: 1;"
+                                sandbox="allow-same-origin"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tool-section">
+                <div class="tool-header">
+                    <h2 class="tool-title">
+                        <span data-lang="en">Token Counter</span>
+                        <span data-lang="ru">Счетчик токенов</span>
+                    </h2>
+                    <p class="tool-description">
+                        <span data-lang="en">Count tokens and estimate costs for AI model requests</span>
+                        <span data-lang="ru">Подсчитывайте токены и оценивайте стоимость запросов к ИИ моделям</span>
+                    </p>
+                </div>
+                
+                <div class="tool-content">
+                    <div class="input-section">
+                        <label class="section-label" for="token-input">
+                            <span data-lang="en">Text for AI</span>
+                            <span data-lang="ru">Текст для ИИ</span>
+                        </label>
+                        <div class="textarea-container">
+                            <textarea 
+                                id="token-input" 
+                                class="code-textarea"
+                                placeholder="Enter text to count tokens..."
+                                data-placeholder-en="Enter text to count tokens..."
+                                data-placeholder-ru="Введите текст для подсчета токенов..."
+                            ></textarea>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 1rem; margin-bottom: 0;">
+                            <label class="form-label" for="model-select">
+                                <span data-lang="en">AI Model</span>
+                                <span data-lang="ru">Модель ИИ</span>
+                            </label>
+                            <select id="model-select" class="form-input">
+                                <option value="claude-4-sonnet">Claude 4 Sonnet</option>
+                                <option value="claude-4-opus">Claude 4 Opus</option>
+                                <option value="claude-3-5-sonnet">Claude 3.5 Sonnet</option>
+                                <option value="claude-3-haiku">Claude 3 Haiku</option>
+                                <option value="gpt-4.1">GPT-4.1</option>
+                                <option value="gpt-4">GPT-4</option>
+                                <option value="gpt-o4-mini">GPT o4 mini</option>
+                                <option value="gpt-o4-mini-high">GPT o4 mini high</option>
+                                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="output-section">
+                        <label class="section-label">
+                            <span data-lang="en">Statistics</span>
+                            <span data-lang="ru">Статистика</span>
+                        </label>
+                        <div class="output-container">
+                            <div class="token-stats" id="token-stats" style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                                <div class="stat-item">
+                                    <div class="stat-value" id="token-count">0</div>
+                                    <div class="stat-label">
+                                        <span data-lang="en">Tokens</span>
+                                        <span data-lang="ru">Токены</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="char-count">0</div>
+                                    <div class="stat-label">
+                                        <span data-lang="en">Characters</span>
+                                        <span data-lang="ru">Символы</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="word-count">0</div>
+                                    <div class="stat-label">
+                                        <span data-lang="en">Words</span>
+                                        <span data-lang="ru">Слова</span>
+                                    </div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value" id="cost-estimate">$0.00</div>
+                                    <div class="stat-label">
+                                        <span data-lang="en">Est. Cost</span>
+                                        <span data-lang="ru">Прим. цена</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="text-tools.js"></script>
+</body>
+</html>
