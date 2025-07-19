@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Full-Stack Developer Portfolio</title>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +28,16 @@
                     <span data-lang="ru">Full-Stack Разработчик</span>
                 </div>
                 <div class="nav-controls">
+                    <a href="code-tools.html" class="nav-link">
+                        <i class="fas fa-code"></i>
+                        <span data-lang="en">Code Tools</span>
+                        <span data-lang="ru">Инструменты</span>
+                    </a>
+                    <a href="qr-generator.html" class="nav-link">
+                        <i class="fas fa-qrcode"></i>
+                        <span data-lang="en">QR Generator</span>
+                        <span data-lang="ru">QR Генератор</span>
+                    </a>
                     <button class="lang-toggle" id="langToggle">
                         <i class="fas fa-globe"></i>
                         <span class="lang-text">RU</span>

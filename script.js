@@ -20,11 +20,11 @@ class PortfolioApp {
         const themeIcon = themeToggle.querySelector('i');
         
         if (this.currentTheme === 'dark') {
-            body.setAttribute('data-theme', 'dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
         } else {
-            body.removeAttribute('data-theme');
+            document.documentElement.removeAttribute('data-theme');
             themeIcon.classList.remove('fa-sun');
             themeIcon.classList.add('fa-moon');
         }
@@ -42,6 +42,8 @@ class PortfolioApp {
             body.removeAttribute('data-current-lang');
             langText.textContent = 'RU';
         }
+        
+        this.updatePlaceholders();
     }
     
     toggleTheme() {
@@ -57,12 +59,12 @@ class PortfolioApp {
         setTimeout(() => {
             if (this.currentTheme === 'light') {
                 this.currentTheme = 'dark';
-                body.setAttribute('data-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
                 themeIcon.classList.remove('fa-moon');
                 themeIcon.classList.add('fa-sun');
             } else {
                 this.currentTheme = 'light';
-                body.removeAttribute('data-theme');
+                document.documentElement.removeAttribute('data-theme');
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
             }
@@ -95,6 +97,7 @@ class PortfolioApp {
         }
         
         localStorage.setItem('language', this.currentLang);
+        this.updatePlaceholders();
         
         setTimeout(() => {
             this.isAnimating = false;
@@ -163,6 +166,17 @@ class PortfolioApp {
             el.style.transform = 'translateY(20px)';
             el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             observer.observe(el);
+        });
+    }
+
+    updatePlaceholders() {
+        const textareas = document.querySelectorAll('textarea[data-placeholder-en][data-placeholder-ru]');
+        textareas.forEach(textarea => {
+            if (this.currentLang === 'ru') {
+                textarea.placeholder = textarea.getAttribute('data-placeholder-ru');
+            } else {
+                textarea.placeholder = textarea.getAttribute('data-placeholder-en');
+            }
         });
     }
 }

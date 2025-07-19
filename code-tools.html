@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Tools | Full-Stack Developer Portfolio</title>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .code-tools {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+        .tools-container {
+            width: 1400px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            box-sizing: border-box;
+        }
+
+        .tool-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .tool-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .tool-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+        }
+
+        .tool-description {
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .tool-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            height: 600px;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .input-section, .output-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .regex-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .regex-textarea-container, .output-container, .json-textarea-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .regex-textarea-container .code-textarea, .json-textarea-container .code-textarea {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .json-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .section-label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .code-textarea {
+            width: 100%;
+            max-width: 100%;
+            min-height: 300px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            resize: none;
+            transition: var(--transition);
+            box-sizing: border-box;
+            overflow: auto;
+        }
+
+        .code-textarea:focus {
+            outline: none;
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+        }
+
+        [data-theme="dark"] .code-textarea:focus {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .regex-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .regex-controls .regex-input {
+            flex: 1;
+        }
+
+        .regex-input {
+            width: 100%;
+            max-width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-sizing: border-box;
+        }
+
+        .regex-input:focus {
+            outline: none;
+            border-color: var(--text-primary);
+        }
+
+        .regex-flags {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            overflow: hidden;
+            width: 108px;
+            height: 47px;
+            flex-shrink: 0;
+        }
+
+        .flag-option {
+            position: relative;
+            flex: 1;
+            display: flex;
+        }
+
+        .flag-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+        }
+
+        .flag-pill {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            user-select: none;
+            border: none;
+            border-right: 1px solid var(--border-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .flag-option:last-child .flag-pill {
+            border-right: none;
+        }
+
+        .flag-option input:checked + .flag-pill {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .flag-pill:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .flag-option input:checked + .flag-pill:hover {
+            background: var(--text-primary);
+            opacity: 0.9;
+        }
+
+        .json-tools {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .tool-option {
+            position: relative;
+            flex: 1;
+            display: flex;
+        }
+
+        .tool-option input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+            width: 0;
+            height: 0;
+        }
+
+        .tool-pill {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 40px;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            user-select: none;
+            border: none;
+            border-right: 1px solid var(--border-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .tool-option:last-child .tool-pill {
+            border-right: none;
+        }
+
+        .tool-pill:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .tool-pill.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .error-output {
+            background: #fee;
+            color: #c53030;
+            border: 1px solid #feb2b2;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        [data-theme="dark"] .error-output {
+            background: #2d1b1b;
+            color: #fc8181;
+            border-color: #742a2a;
+        }
+
+        .match-highlight {
+            background: #fef5e7;
+            border: 1px solid #f6e05e;
+            border-radius: 3px;
+            padding: 0.1rem 0.2rem;
+        }
+
+        [data-theme="dark"] .match-highlight {
+            background: #2d2016;
+            border-color: #975a16;
+        }
+
+        .home-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            margin-right: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .home-icon:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .tools-container {
+                width: 100%;
+                max-width: 100%;
+                padding: 1rem;
+                gap: 2rem;
+            }
+
+            .tool-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                height: auto;
+            }
+
+            .regex-controls {
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
+            }
+
+            .json-tools {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .tool-btn {
+                flex: 1;
+                min-width: 100px;
+            }
+
+            .nav-container {
+                justify-content: space-between;
+            }
+
+            .logo {
+                flex: 1;
+                justify-content: flex-start;
+            }
+
+            .nav-controls {
+                flex: 0 0 auto;
+                order: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-icon {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                margin-right: 0;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            .nav-controls {
+                margin-left: auto;
+            }
+
+            .tool-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html" class="home-icon">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <span data-lang="en">Code Tools</span>
+                    <span data-lang="ru">Инструменты</span>
+                </div>
+                <div class="nav-controls">
+                    <button class="lang-toggle" id="langToggle">
+                        <i class="fas fa-globe"></i>
+                        <span class="lang-text">RU</span>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="code-tools">
+        <div class="tools-container">
+            <section class="tool-section">
+                <div class="tool-header">
+                    <h2 class="tool-title">
+                        <span data-lang="en">Regex Tester</span>
+                        <span data-lang="ru">Тестер Регулярных Выражений</span>
+                    </h2>
+                    <p class="tool-description">
+                        <span data-lang="en">Test regular expressions with real-time matching and highlighting</span>
+                        <span data-lang="ru">Тестируйте регулярные выражения с подсветкой совпадений в реальном времени</span>
+                    </p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="regex-section">
+                        <label class="section-label">
+                            <span data-lang="en">Regular Expression</span>
+                            <span data-lang="ru">Регулярное выражение</span>
+                        </label>
+                        <div class="regex-controls">
+                            <input type="text" id="regex-pattern" class="regex-input" 
+                                   placeholder="Enter your regex pattern..."
+                                   data-placeholder-en="Enter your regex pattern..."
+                                   data-placeholder-ru="Введите ваше регулярное выражение...">
+                            <div class="regex-flags">
+                                <div class="flag-option">
+                                    <input type="checkbox" id="flag-g">
+                                    <label for="flag-g" class="flag-pill">g</label>
+                                </div>
+                                <div class="flag-option">
+                                    <input type="checkbox" id="flag-i">
+                                    <label for="flag-i" class="flag-pill">i</label>
+                                </div>
+                                <div class="flag-option">
+                                    <input type="checkbox" id="flag-m">
+                                    <label for="flag-m" class="flag-pill">m</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="regex-textarea-container">
+                            <label class="section-label" for="regex-test-text">
+                                <span data-lang="en">Test Text</span>
+                                <span data-lang="ru">Тестовый текст</span>
+                            </label>
+                            <textarea id="regex-test-text" class="code-textarea" 
+                                      placeholder="Enter text to test against..."
+                                      data-placeholder-en="Enter text to test against..."
+                                      data-placeholder-ru="Введите текст для тестирования..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="output-container">
+                        <label class="section-label">
+                            <span data-lang="en">Matches</span>
+                            <span data-lang="ru">Совпадения</span>
+                        </label>
+                        <div id="regex-output" class="code-textarea" style="background: var(--bg-tertiary); overflow-y: auto; flex: 1;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tool-section">
+                <div class="tool-header">
+                    <h2 class="tool-title">
+                        <span data-lang="en">JSON/XML Processor</span>
+                        <span data-lang="ru">Обработчик JSON/XML</span>
+                    </h2>
+                    <p class="tool-description">
+                        <span data-lang="en">Format, validate, and convert JSON/XML data</span>
+                        <span data-lang="ru">Форматируйте, валидируйте и конвертируйте JSON/XML данные</span>
+                    </p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="json-section">
+                        <label class="section-label">
+                            <span data-lang="en">Input JSON/XML</span>
+                            <span data-lang="ru">Входные JSON/XML данные</span>
+                        </label>
+                        <div class="json-tools">
+                            <div class="tool-option">
+                                <input type="radio" id="format-json" name="json-tool">
+                                <label for="format-json" class="tool-pill">
+                                    <span data-lang="en">Format</span>
+                                    <span data-lang="ru">Формат</span>
+                                </label>
+                            </div>
+                            <div class="tool-option">
+                                <input type="radio" id="minify-json" name="json-tool">
+                                <label for="minify-json" class="tool-pill">
+                                    <span data-lang="en">Minify</span>
+                                    <span data-lang="ru">Мини</span>
+                                </label>
+                            </div>
+                            <div class="tool-option">
+                                <input type="radio" id="validate-json" name="json-tool">
+                                <label for="validate-json" class="tool-pill">
+                                    <span data-lang="en">Validate</span>
+                                    <span data-lang="ru">Валид</span>
+                                </label>
+                            </div>
+                            <div class="tool-option">
+                                <input type="radio" id="json-to-xml" name="json-tool">
+                                <label for="json-to-xml" class="tool-pill">
+                                    <span data-lang="en">JSON→XML</span>
+                                    <span data-lang="ru">JSON→XML</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="json-textarea-container">
+                            <textarea id="json-input" class="code-textarea" 
+                                      placeholder='{"example": "data"}'
+                                      data-placeholder-en='{"example": "data"}'
+                                      data-placeholder-ru='{"пример": "данные"}'></textarea>
+                        </div>
+                    </div>
+
+                    <div class="output-container">
+                        <label class="section-label">
+                            <span data-lang="en">Output</span>
+                            <span data-lang="ru">Результат</span>
+                        </label>
+                        <div id="json-output" class="code-textarea" style="background: var(--bg-tertiary); overflow-y: auto; flex: 1;"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="code-tools.js"></script>
+</body>
+</html>

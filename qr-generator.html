@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator | Full-Stack Developer Portfolio</title>
+    <script>
+        (function() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .qr-generator {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+        .qr-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .qr-input-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .qr-output-section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--text-primary);
+            box-shadow: 0 0 0 2px rgba(26, 26, 26, 0.1);
+        }
+
+        [data-theme="dark"] .form-input:focus {
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 1rem;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+
+        .color-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-secondary);
+            flex: 1;
+            text-align: center;
+        }
+
+        .color-option:hover {
+            background: var(--bg-tertiary);
+            border-color: var(--border-color);
+        }
+
+        .color-option[data-active="true"] {
+            border-color: var(--text-primary);
+            background: var(--bg-tertiary);
+        }
+
+        .color-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .transparent-bg {
+            background: linear-gradient(45deg, #ccc 25%, transparent 25%), 
+                        linear-gradient(-45deg, #ccc 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #ccc 75%), 
+                        linear-gradient(-45deg, transparent 75%, #ccc 75%);
+            background-size: 8px 8px;
+            background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+        }
+
+        .color-option span {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .generate-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .qr-display {
+            margin-bottom: 2rem;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+        }
+
+        .qr-placeholder {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .export-btn {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--text-primary);
+            background: transparent;
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .export-btn:hover {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .export-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .range-input {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .range-value {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        @media (max-width: 768px) {
+            .qr-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                padding: 1rem;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .export-buttons {
+                flex-direction: column;
+            }
+        }
+
+
+        .home-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            margin-right: 0.75rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .home-icon:hover {
+            color: var(--text-primary);
+            border-color: var(--text-primary);
+            background: var(--bg-secondary);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                justify-content: space-between;
+            }
+
+            .logo {
+                flex: 1;
+                justify-content: flex-start;
+            }
+
+            .nav-controls {
+                flex: 0 0 auto;
+                order: 2;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .home-icon {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                margin-right: 0;
+            }
+
+            .logo span {
+                display: none;
+            }
+
+            .nav-controls {
+                margin-left: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="index.html" class="home-icon">
+                        <i class="fas fa-home"></i>
+                    </a>
+                    <span data-lang="en">QR Generator</span>
+                    <span data-lang="ru">QR Генератор</span>
+                </div>
+                <div class="nav-controls">
+                    <button class="lang-toggle" id="langToggle">
+                        <i class="fas fa-globe"></i>
+                        <span class="lang-text">RU</span>
+                    </button>
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="qr-generator">
+        <div class="qr-container">
+            <div class="qr-input-section">
+                <h2 class="section-title">
+                    <span data-lang="en">QR Code Settings</span>
+                    <span data-lang="ru">Настройки QR-кода</span>
+                </h2>
+                
+                <div class="form-group">
+                    <label class="form-label" for="qr-text">
+                        <span data-lang="en">Text or URL</span>
+                        <span data-lang="ru">Текст или URL</span>
+                    </label>
+                    <textarea 
+                        id="qr-text" 
+                        class="form-input form-textarea" 
+                        placeholder="Enter text or URL to generate QR code..."
+                        data-placeholder-en="Enter text or URL to generate QR code..."
+                        data-placeholder-ru="Введите текст или URL для генерации QR-кода..."
+                    ></textarea>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label class="form-label" for="qr-size">
+                            <span data-lang="en">Size</span>
+                            <span data-lang="ru">Размер</span>
+                        </label>
+                        <input type="range" id="qr-size" class="range-input" min="200" max="800" value="400" step="50">
+                        <div class="range-value" id="size-value">400px</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="qr-margin">
+                            <span data-lang="en">Margin</span>
+                            <span data-lang="ru">Отступ</span>
+                        </label>
+                        <input type="range" id="qr-margin" class="range-input" min="0" max="10" value="4" step="1">
+                        <div class="range-value" id="margin-value">4</div>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span data-lang="en">QR Color</span>
+                            <span data-lang="ru">Цвет QR</span>
+                        </label>
+                        <div class="color-picker">
+                            <div class="color-option" data-color="#000000" data-active="true">
+                                <div class="color-circle" style="background-color: #000000;"></div>
+                                <span data-lang="en">Black</span>
+                                <span data-lang="ru">Черный</span>
+                            </div>
+                            <div class="color-option" data-color="#ffffff">
+                                <div class="color-circle" style="background-color: #ffffff; border: 1px solid var(--border-color);"></div>
+                                <span data-lang="en">White</span>
+                                <span data-lang="ru">Белый</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="qr-fg-color" value="#000000">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span data-lang="en">Background Color</span>
+                            <span data-lang="ru">Цвет фона</span>
+                        </label>
+                        <div class="color-picker">
+                            <div class="color-option" data-color="#ffffff" data-active="true">
+                                <div class="color-circle" style="background-color: #ffffff; border: 1px solid var(--border-color);"></div>
+                                <span data-lang="en">White</span>
+                                <span data-lang="ru">Белый</span>
+                            </div>
+                            <div class="color-option" data-color="#000000">
+                                <div class="color-circle" style="background-color: #000000;"></div>
+                                <span data-lang="en">Black</span>
+                                <span data-lang="ru">Черный</span>
+                            </div>
+                            <div class="color-option" data-color="transparent">
+                                <div class="color-circle transparent-bg">
+                                    <i class="fas fa-eye-slash"></i>
+                                </div>
+                                <span data-lang="en">Transparent</span>
+                                <span data-lang="ru">Прозрачный</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="qr-bg-color" value="#ffffff">
+                    </div>
+                </div>
+
+                <button class="generate-btn" id="generate-btn">
+                    <span data-lang="en">Generate QR Code</span>
+                    <span data-lang="ru">Создать QR-код</span>
+                </button>
+            </div>
+
+            <div class="qr-output-section">
+                <h2 class="section-title">
+                    <span data-lang="en">Generated QR Code</span>
+                    <span data-lang="ru">Сгенерированный QR-код</span>
+                </h2>
+                
+                <div class="qr-display" id="qr-display">
+                    <div class="qr-placeholder">
+                        <span data-lang="en">QR code will appear here</span>
+                        <span data-lang="ru">QR-код появится здесь</span>
+                    </div>
+                </div>
+
+                <div class="export-buttons">
+                    <button class="export-btn" id="download-svg" disabled>
+                        <i class="fas fa-download"></i>
+                        <span data-lang="en">Download SVG</span>
+                        <span data-lang="ru">Скачать SVG</span>
+                    </button>
+                    <button class="export-btn" id="download-png" disabled>
+                        <i class="fas fa-download"></i>
+                        <span data-lang="en">Download PNG</span>
+                        <span data-lang="ru">Скачать PNG</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="qr-generator.js"></script>
+</body>
+</html>
