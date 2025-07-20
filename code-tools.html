@@ -36,6 +36,30 @@
             box-sizing: border-box;
         }
 
+        .page-header {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding: 2rem 0;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
         .tool-section {
             background: var(--bg-card);
             border-radius: 16px;
@@ -255,6 +279,115 @@
             opacity: 0.9;
         }
 
+        .encoding-controls {
+            margin-bottom: 1.5rem;
+        }
+
+        .encoding-tools {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .encoding-tool {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            user-select: none;
+            border-right: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .encoding-tool:nth-child(4n) {
+            border-right: none;
+        }
+
+        .encoding-tool:nth-child(n+5) {
+            border-bottom: none;
+        }
+
+        .encoding-tool:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .encoding-tool.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .encoding-textarea-container, .sql-textarea-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .encoding-textarea-container .code-textarea, .sql-textarea-container .code-textarea {
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .encoding-section, .sql-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            max-width: 100%;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        .sql-tools {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-secondary);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .sql-tool {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            user-select: none;
+            border-right: 1px solid var(--border-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .sql-tool:last-child {
+            border-right: none;
+        }
+
+        .sql-tool:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .sql-tool.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
         .json-tools {
             display: flex;
             border: 1px solid var(--border-color);
@@ -385,6 +518,10 @@
                 gap: 0.75rem;
             }
 
+            .encoding-tools {
+                width: 100%;
+            }
+
             .json-tools {
                 flex-wrap: wrap;
                 gap: 0.5rem;
@@ -430,7 +567,114 @@
             .tool-title {
                 font-size: 1.5rem;
             }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
         }
+        .floating-nav {
+            position: fixed;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 6px;
+            z-index: 1000;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .floating-nav.hidden {
+            opacity: 0.3;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin: 2px 0;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .nav-tooltip {
+            position: absolute;
+            left: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item:hover .nav-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(8px);
+        }
+
+        .nav-tooltip::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-right: 6px solid var(--bg-primary);
+        }
+
+
+        @media (max-width: 1100px) {
+            .floating-nav {
+                left: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .floating-nav {
+                display: none;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -459,7 +703,18 @@
 
     <main class="code-tools">
         <div class="tools-container">
-            <section class="tool-section">
+            <section class="page-header">
+                <h1 class="page-title">
+                    <span data-lang="en">Code Tools</span>
+                    <span data-lang="ru">Инструменты для кода</span>
+                </h1>
+                <p class="page-subtitle">
+                    <span data-lang="en">Essential development tools for testing, formatting, and validating code</span>
+                    <span data-lang="ru">Важные инструменты разработки для тестирования, форматирования и валидации кода</span>
+                </p>
+            </section>
+
+            <section class="tool-section" id="regex-tester">
                 <div class="tool-header">
                     <h2 class="tool-title">
                         <span data-lang="en">Regex Tester</span>
@@ -519,7 +774,7 @@
                 </div>
             </section>
 
-            <section class="tool-section">
+            <section class="tool-section" id="json-processor">
                 <div class="tool-header">
                     <h2 class="tool-title">
                         <span data-lang="en">JSON/XML Processor</span>
@@ -566,6 +821,13 @@
                                     <span data-lang="ru">JSON→XML</span>
                                 </label>
                             </div>
+                            <div class="tool-option">
+                                <input type="radio" id="json-to-ts" name="json-tool">
+                                <label for="json-to-ts" class="tool-pill">
+                                    <span data-lang="en">JSON→TS</span>
+                                    <span data-lang="ru">JSON→TS</span>
+                                </label>
+                            </div>
                         </div>
                         <div class="json-textarea-container">
                             <textarea id="json-input" class="code-textarea" 
@@ -584,8 +846,190 @@
                     </div>
                 </div>
             </section>
+
+            <section class="tool-section" id="encoding-tools">
+                <div class="tool-header">
+                    <h2 class="tool-title">
+                        <span data-lang="en">Encoding/Decoding Tools</span>
+                        <span data-lang="ru">Инструменты кодирования/декодирования</span>
+                    </h2>
+                    <p class="tool-description">
+                        <span data-lang="en">Convert between different text encodings: Base64, Hex, URL encoding, and hexdump</span>
+                        <span data-lang="ru">Конвертация между различными кодировками: Base64, Hex, URL кодирование и hexdump</span>
+                    </p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="encoding-section">
+                        <label class="section-label">
+                            <span data-lang="en">Input Text</span>
+                            <span data-lang="ru">Входной текст</span>
+                        </label>
+                        <div class="encoding-controls">
+                            <div class="encoding-tools">
+                                <div class="tool-option">
+                                    <button class="tool-pill encoding-tool active" data-tool="to-base64">
+                                        <span data-lang="en">To Base64</span>
+                                        <span data-lang="ru">В Base64</span>
+                                    </button>
+                                </div>
+                                <div class="tool-option">
+                                    <button class="tool-pill encoding-tool" data-tool="from-base64">
+                                        <span data-lang="en">From Base64</span>
+                                        <span data-lang="ru">Из Base64</span>
+                                    </button>
+                                </div>
+                                <div class="tool-option">
+                                    <button class="tool-pill encoding-tool" data-tool="to-hex">
+                                        <span data-lang="en">To Hex</span>
+                                        <span data-lang="ru">В Hex</span>
+                                    </button>
+                                </div>
+                                <div class="tool-option">
+                                    <button class="tool-pill encoding-tool" data-tool="from-hex">
+                                        <span data-lang="en">From Hex</span>
+                                        <span data-lang="ru">Из Hex</span>
+                                    </button>
+                                </div>
+                                <div class="tool-option">
+                                    <button class="tool-pill encoding-tool" data-tool="to-hexdump">
+                                        <span data-lang="en">To Hexdump</span>
+                                        <span data-lang="ru">В Hexdump</span>
+                                    </button>
+                                </div>
+                                <div class="tool-option">
+                                    <button class="tool-pill encoding-tool" data-tool="from-hexdump">
+                                        <span data-lang="en">From Hexdump</span>
+                                        <span data-lang="ru">Из Hexdump</span>
+                                    </button>
+                                </div>
+                                <div class="tool-option">
+                                    <button class="tool-pill encoding-tool" data-tool="url-encode">
+                                        <span data-lang="en">URL Encode</span>
+                                        <span data-lang="ru">URL кодер</span>
+                                    </button>
+                                </div>
+                                <div class="tool-option">
+                                    <button class="tool-pill encoding-tool" data-tool="url-decode">
+                                        <span data-lang="en">URL Decode</span>
+                                        <span data-lang="ru">URL декод</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="encoding-textarea-container">
+                            <textarea id="encoding-input" class="code-textarea" 
+                                      placeholder="Enter text to encode/decode..."
+                                      data-placeholder-en="Enter text to encode/decode..."
+                                      data-placeholder-ru="Введите текст для кодирования/декодирования..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="output-container">
+                        <label class="section-label">
+                            <span data-lang="en">Result</span>
+                            <span data-lang="ru">Результат</span>
+                        </label>
+                        <div id="encoding-output" class="code-textarea" style="background: var(--bg-tertiary); overflow-y: auto; flex: 1;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tool-section" id="sql-tools">
+                <div class="tool-header">
+                    <h2 class="tool-title">
+                        <span data-lang="en">SQL Tools</span>
+                        <span data-lang="ru">SQL инструменты</span>
+                    </h2>
+                    <p class="tool-description">
+                        <span data-lang="en">Format SQL queries, visualize database schemas, and generate documentation</span>
+                        <span data-lang="ru">Форматирование SQL запросов, визуализация схем БД и генерация документации</span>
+                    </p>
+                </div>
+
+                <div class="tool-content">
+                    <div class="sql-section">
+                        <label class="section-label">
+                            <span data-lang="en">SQL Input</span>
+                            <span data-lang="ru">SQL код</span>
+                        </label>
+                        <div class="sql-tools">
+                            <div class="tool-option">
+                                <button class="tool-pill sql-tool active" data-tool="format">
+                                    <span data-lang="en">Format</span>
+                                    <span data-lang="ru">Формат</span>
+                                </button>
+                            </div>
+                            <div class="tool-option">
+                                <button class="tool-pill sql-tool" data-tool="performance">
+                                    <span data-lang="en">Performance</span>
+                                    <span data-lang="ru">Производительность</span>
+                                </button>
+                            </div>
+                            <div class="tool-option">
+                                <button class="tool-pill sql-tool" data-tool="nosql">
+                                    <span data-lang="en">NoSQL</span>
+                                    <span data-lang="ru">NoSQL</span>
+                                </button>
+                            </div>
+                            <div class="tool-option">
+                                <button class="tool-pill sql-tool" data-tool="explain">
+                                    <span data-lang="en">Explain</span>
+                                    <span data-lang="ru">Объяснить</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="sql-textarea-container">
+                            <textarea id="sql-input" class="code-textarea" 
+                                      placeholder="CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(255));"
+                                      data-placeholder-en="CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(255));"
+                                      data-placeholder-ru="CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(255));"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="output-container">
+                        <label class="section-label">
+                            <span data-lang="en">Output</span>
+                            <span data-lang="ru">Результат</span>
+                        </label>
+                        <div id="sql-output" class="code-textarea" style="background: var(--bg-tertiary); overflow-y: auto; flex: 1;"></div>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
+
+    <nav class="floating-nav" id="floating-nav">
+        <a href="#regex-tester" class="nav-item" data-section="regex-tester">
+            <span>.*</span>
+            <div class="nav-tooltip">
+                <span data-lang="en">Regex Tester</span>
+                <span data-lang="ru">Тестер Регулярных Выражений</span>
+            </div>
+        </a>
+        <a href="#json-processor" class="nav-item" data-section="json-processor">
+            <span>{}</span>
+            <div class="nav-tooltip">
+                <span data-lang="en">JSON/XML Processor</span>
+                <span data-lang="ru">Обработчик JSON/XML</span>
+            </div>
+        </a>
+        <a href="#encoding-tools" class="nav-item" data-section="encoding-tools">
+            <span>↔</span>
+            <div class="nav-tooltip">
+                <span data-lang="en">Encoding Tools</span>
+                <span data-lang="ru">Инструменты Кодирования</span>
+            </div>
+        </a>
+        <a href="#sql-tools" class="nav-item" data-section="sql-tools">
+            <span>⊞</span>
+            <div class="nav-tooltip">
+                <span data-lang="en">SQL Tools</span>
+                <span data-lang="ru">SQL Инструменты</span>
+            </div>
+        </a>
+    </nav>
+
 
     <script src="script.js"></script>
     <script src="code-tools.js"></script>

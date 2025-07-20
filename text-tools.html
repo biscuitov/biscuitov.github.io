@@ -36,6 +36,30 @@
             box-sizing: border-box;
         }
 
+        .page-header {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding: 2rem 0;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0 0 1rem 0;
+            letter-spacing: -0.02em;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin: 0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
         .tool-section {
             background: var(--bg-card);
             border-radius: 16px;
@@ -457,6 +481,14 @@
             .tool-title {
                 font-size: 1.5rem;
             }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -486,6 +518,17 @@
 
     <main class="text-tools">
         <div class="tools-container">
+            <section class="page-header">
+                <h1 class="page-title">
+                    <span data-lang="en">Text Tools</span>
+                    <span data-lang="ru">Текстовые инструменты</span>
+                </h1>
+                <p class="page-subtitle">
+                    <span data-lang="en">Powerful text processing and generation tools for developers and content creators</span>
+                    <span data-lang="ru">Мощные инструменты для обработки и генерации текста для разработчиков и создателей контента</span>
+                </p>
+            </section>
+
             <section class="tool-section">
                 <div class="tool-header">
                     <h2 class="tool-title">
