@@ -4,6 +4,67 @@ class TextTools {
         this.markdownPreview = new MarkdownPreview();
         this.htmlPreview = new HTMLPreview();
         this.tokenCounter = new TokenCounter();
+        this.setupFloatingNav();
+    }
+
+    setupFloatingNav() {
+        const nav = document.getElementById('floating-nav');
+        const navItems = document.querySelectorAll('.nav-item');
+        const sections = document.querySelectorAll('.tool-section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const activeItem = document.querySelector(`.nav-item[data-section="${entry.target.id}"]`);
+                    navItems.forEach(item => item.classList.remove('active'));
+                    if (activeItem) activeItem.classList.add('active');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        sections.forEach(section => observer.observe(section));
+
+        navItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const sectionId = item.getAttribute('data-section');
+                const section = document.getElementById(sectionId);
+                if (section) {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    const windowHeight = window.innerHeight;
+                    const scrollTo = sectionTop - (windowHeight / 2) + (sectionHeight / 2);
+                    
+                    window.scrollTo({
+                        top: Math.max(0, scrollTo),
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        let hideTimeout;
+        
+        const showNav = () => {
+            clearTimeout(hideTimeout);
+            nav.classList.remove('hidden');
+        };
+
+        const hideNav = () => {
+            hideTimeout = setTimeout(() => nav.classList.add('hidden'), 3000);
+        };
+
+        const navArea = document.createElement('div');
+        navArea.style.cssText = 'position: fixed; left: 0; top: 0; width: 120px; height: 100vh; z-index: 999; pointer-events: auto;';
+        document.body.appendChild(navArea);
+
+        document.addEventListener('scroll', showNav);
+        navArea.addEventListener('mouseenter', showNav);
+        nav.addEventListener('mouseenter', showNav);
+        nav.addEventListener('mouseleave', hideNav);
+        navArea.addEventListener('mouseleave', hideNav);
+        
+        showNav();
     }
 }
 

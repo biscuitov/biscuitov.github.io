@@ -490,6 +490,104 @@
                 font-size: 1rem;
             }
         }
+        .floating-nav {
+            position: fixed;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 6px;
+            z-index: 1000;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .floating-nav.hidden {
+            opacity: 0.3;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            margin: 2px 0;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .nav-tooltip {
+            position: absolute;
+            left: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item:hover .nav-tooltip {
+            opacity: 1;
+            transform: translateY(-50%) translateX(8px);
+        }
+
+        .nav-tooltip::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-right: 6px solid var(--bg-primary);
+        }
+
+        @media (max-width: 1100px) {
+            .floating-nav {
+                left: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .floating-nav {
+                display: none;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -529,7 +627,7 @@
                 </p>
             </section>
 
-            <section class="tool-section">
+            <section class="tool-section" id="qr-generator">
                 <div class="tool-header">
                     <h2 class="tool-title">
                         <span data-lang="en">QR Code Generator</span>
@@ -665,7 +763,7 @@
                 </div>
             </section>
 
-            <section class="tool-section">
+            <section class="tool-section" id="markdown-preview">
                 <div class="tool-header">
                     <h2 class="tool-title">
                         <span data-lang="en">Markdown Preview</span>
@@ -711,7 +809,7 @@
                 </div>
             </section>
 
-            <section class="tool-section">
+            <section class="tool-section" id="html-preview">
                 <div class="tool-header">
                     <h2 class="tool-title">
                         <span data-lang="en">HTML Preview</span>
@@ -757,7 +855,7 @@
                 </div>
             </section>
 
-            <section class="tool-section">
+            <section class="tool-section" id="token-counter">
                 <div class="tool-header">
                     <h2 class="tool-title">
                         <span data-lang="en">Token Counter</span>
@@ -846,6 +944,37 @@
             </section>
         </div>
     </main>
+
+    <nav class="floating-nav" id="floating-nav">
+        <a href="#qr-generator" class="nav-item" data-section="qr-generator">
+            <span>⧉</span>
+            <div class="nav-tooltip">
+                <span data-lang="en">QR Code Generator</span>
+                <span data-lang="ru">Генератор QR-кодов</span>
+            </div>
+        </a>
+        <a href="#markdown-preview" class="nav-item" data-section="markdown-preview">
+            <span>⬇</span>
+            <div class="nav-tooltip">
+                <span data-lang="en">Markdown Preview</span>
+                <span data-lang="ru">Превью Markdown</span>
+            </div>
+        </a>
+        <a href="#html-preview" class="nav-item" data-section="html-preview">
+            <span>&lt;&gt;</span>
+            <div class="nav-tooltip">
+                <span data-lang="en">HTML Preview</span>
+                <span data-lang="ru">Превью HTML</span>
+            </div>
+        </a>
+        <a href="#token-counter" class="nav-item" data-section="token-counter">
+            <span>∑</span>
+            <div class="nav-tooltip">
+                <span data-lang="en">Token Counter</span>
+                <span data-lang="ru">Счетчик токенов</span>
+            </div>
+        </a>
+    </nav>
 
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
